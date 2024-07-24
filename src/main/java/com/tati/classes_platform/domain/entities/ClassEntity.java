@@ -3,7 +3,6 @@ package com.tati.classes_platform.domain.entities;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import org.apache.commons.lang3.builder.ToStringExclude;
 import org.hibernate.annotations.CreationTimestamp;
 
 import jakarta.persistence.CascadeType;
