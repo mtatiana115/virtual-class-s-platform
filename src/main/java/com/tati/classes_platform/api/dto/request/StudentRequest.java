@@ -31,4 +31,8 @@ public class StudentRequest {
   @Schema(description = "Indicates if the class is active", example = "true")
   private Boolean isActive;
 
+  @NotNull(message = "ClassEntityId is required")
+  @Schema(description = "Id of the class entity", example = "1")
+  private Long ClassEntityId;
+
 }
