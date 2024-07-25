@@ -5,15 +5,24 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.tati.classes_platform.api.dto.error.ErrorResponse;
+import com.tati.classes_platform.api.dto.request.StudentRequest;
 import com.tati.classes_platform.api.dto.response.StudentResponseDetails;
+import com.tati.classes_platform.api.dto.response.responseBasic.StudentResponse;
 import com.tati.classes_platform.infrastructure.abstract_services.IStudentService;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
@@ -35,4 +44,12 @@ public class StudentController {
     return ResponseEntity.ok(studentService.findAllByName(pageable, name));
   }
 
+  @Operation(summary = "Create a student")
+  @ApiResponse(responseCode = "400", description = "When the request is not valid", content = {
+      @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))
+  })
+  @PostMapping
+  public ResponseEntity<StudentResponse> createStudent(@Validated @RequestBody StudentRequest rq) {
+    return ResponseEntity.ok(studentService.create(rq));
+  }
 }
