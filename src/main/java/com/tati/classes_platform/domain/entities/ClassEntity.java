@@ -27,7 +27,6 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ClassEntity {
-
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(length = 20, nullable = false)
@@ -54,7 +53,7 @@ public class ClassEntity {
   @EqualsAndHashCode.Exclude
   private List<Student> students;
 
-  @OneToMany(mappedBy = "lesson", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = false)
+  @OneToMany(mappedBy = "classEntity", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = false)
   @ToString.Exclude
   @EqualsAndHashCode.Exclude
   private List<Lesson> lessons;
