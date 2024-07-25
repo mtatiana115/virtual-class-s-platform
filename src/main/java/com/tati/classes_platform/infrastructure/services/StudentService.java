@@ -35,6 +35,8 @@ public class StudentService implements IStudentService {
 
   @Override
   public Page<StudentResponseDetails> findAllByName(Pageable pageable, String name) {
+    log.info(
+        "Finding a student with name {}", name);
     return studentRepository.findAllByIsActiveTrueAndNameContaining(pageable, name)
         .map(studentMapper::entityToResponseDetails);
   }
@@ -77,7 +79,8 @@ public class StudentService implements IStudentService {
   @Override
   public StudentResponse disable(Long id) {
     Student student = getById(id);
-    log.info("Disabling student with id: {}", id + " name: {} " + student.getName());
+    log.info("Disabling student with id: {}  name: {}",
+        id, student.getName());
     student.setIsActive(false);
     return studentMapper.entityToResponse(studentRepository.save(student));
   }
