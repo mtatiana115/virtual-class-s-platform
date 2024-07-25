@@ -5,6 +5,7 @@ import java.util.List;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
+import org.mapstruct.MappingTarget;
 
 import com.tati.classes_platform.api.dto.request.StudentRequest;
 import com.tati.classes_platform.api.dto.response.StudentResponseDetails;
@@ -25,4 +26,5 @@ public interface StudentMapper {
 
   StudentResponse entityToResponse(Student student);
 
+  void updateStudent(StudentRequest rq, @MappingTarget Student student);
 }

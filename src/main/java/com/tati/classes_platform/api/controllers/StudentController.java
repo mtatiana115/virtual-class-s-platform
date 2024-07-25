@@ -8,8 +8,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -73,5 +75,25 @@ public class StudentController {
   public ResponseEntity<Void> delete(@PathVariable Long id) {
     studentService.delete(id);
     return ResponseEntity.noContent().build();
+  }
+
+  @Operation(summary = "Update a student by its ID number")
+  @ApiResponse(responseCode = "400", description = "When the request is not valid", content = {
+      @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))
+  })
+  @PutMapping(path = "/{id}")
+  public ResponseEntity<StudentResponse> updateStudent(@Validated @RequestBody StudentRequest rq,
+      @PathVariable Long id) {
+    return ResponseEntity.ok(studentService.update(rq, id));
+  }
+
+  @Operation(summary = "Disable a student by its ID number")
+  @ApiResponse(responseCode = "400", description = "When the ID is not found", content = {
+      @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))
+  })
+  @PatchMapping(path = "/{id}/disable")
+  public ResponseEntity<StudentResponse> disable(
+      @PathVariable Long id) {
+    return ResponseEntity.ok(studentService.disable(id));
   }
 }

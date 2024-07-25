@@ -17,9 +17,11 @@ import com.tati.classes_platform.infrastructure.mappers.StudentMapper;
 import com.tati.classes_platform.util.exceptions.BadIdException;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @AllArgsConstructor
+@Slf4j
 public class StudentService implements IStudentService {
 
   @Autowired
@@ -54,12 +56,30 @@ public class StudentService implements IStudentService {
 
   private Student getById(Long id) {
     return studentRepository.findById(id)
-        .orElseThrow(() -> new BadIdException("Student name not found"));
+        .orElseThrow(() -> new BadIdException("Student not found"));
   }
 
   @Override
   public void delete(Long id) {
     studentRepository.deleteById(id);
+  }
+
+  @Override
+  public StudentResponse update(StudentRequest rq, Long id) {
+    Student student = getById(id);
+    ClassEntity classEntity = classRepository.findById(rq.getClassEntityId())
+        .orElseThrow(() -> new BadIdException("Class not found"));
+    student.setClassEntity(classEntity);
+    studentMapper.updateStudent(rq, student);
+    return studentMapper.entityToResponse(studentRepository.save(student));
+  }
+
+  @Override
+  public StudentResponse disable(Long id) {
+    Student student = getById(id);
+    log.info("Disabling student with id: {}", id + " name: {} " + student.getName());
+    student.setIsActive(false);
+    return studentMapper.entityToResponse(studentRepository.save(student));
   }
 
 }
