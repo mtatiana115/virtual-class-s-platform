@@ -57,4 +57,9 @@ public class StudentService implements IStudentService {
         .orElseThrow(() -> new BadIdException("Student name not found"));
   }
 
+  @Override
+  public void delete(Long id) {
+    studentRepository.deleteById(id);
+  }
+
 }

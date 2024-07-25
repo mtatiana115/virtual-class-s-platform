@@ -4,11 +4,12 @@ import com.tati.classes_platform.api.dto.request.StudentRequest;
 import com.tati.classes_platform.api.dto.response.StudentResponseDetails;
 import com.tati.classes_platform.api.dto.response.responseBasic.StudentResponse;
 import com.tati.classes_platform.infrastructure.interfaces.Create;
+import com.tati.classes_platform.infrastructure.interfaces.Delete;
 import com.tati.classes_platform.infrastructure.interfaces.FindAllByName;
 import com.tati.classes_platform.infrastructure.interfaces.FindById;
 
 public interface IStudentService
     extends FindAllByName<StudentResponseDetails>, Create<StudentRequest, StudentResponse>,
-    FindById<StudentResponseDetails, Long> {
+    FindById<StudentResponseDetails, Long>, Delete<Long> {
 
 }

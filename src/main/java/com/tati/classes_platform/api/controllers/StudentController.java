@@ -6,6 +6,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -61,5 +62,16 @@ public class StudentController {
   @GetMapping(path = "/{id}")
   public ResponseEntity<StudentResponseDetails> getById(@PathVariable Long id) {
     return ResponseEntity.ok(studentService.findById(id));
+  }
+
+  @Operation(summary = "Delete a student by its ID number")
+  @ApiResponse(responseCode = "204", description = "Student deleted successfully")
+  @ApiResponse(responseCode = "400", description = "When the ID is not found", content = {
+      @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))
+  })
+  @DeleteMapping(path = "/{id}")
+  public ResponseEntity<Void> delete(@PathVariable Long id) {
+    studentService.delete(id);
+    return ResponseEntity.noContent().build();
   }
 }
