@@ -3,8 +3,9 @@ package com.tati.classes_platform.domain.repositories;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-@Repository
+import com.tati.classes_platform.domain.entities.Lesson;
 
-public interface LessonRepository extends JpaRepository<LessonRepository, Long> {
+@Repository
+public interface LessonRepository extends JpaRepository<Lesson, Long> {
 
 }
