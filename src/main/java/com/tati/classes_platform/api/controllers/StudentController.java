@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -51,5 +52,14 @@ public class StudentController {
   @PostMapping
   public ResponseEntity<StudentResponse> createStudent(@Validated @RequestBody StudentRequest rq) {
     return ResponseEntity.ok(studentService.create(rq));
+  }
+
+  @Operation(summary = "Get a student by ID number")
+  @ApiResponse(responseCode = "400", description = "When the ID is not found", content = {
+      @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))
+  })
+  @GetMapping(path = "/{id}")
+  public ResponseEntity<StudentResponseDetails> getById(@PathVariable Long id) {
+    return ResponseEntity.ok(studentService.findById(id));
   }
 }
